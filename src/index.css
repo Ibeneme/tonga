@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@fontsource/outfit/400.css';
+@import '@fontsource/outfit/500.css';
+@import '@fontsource/outfit/600.css';
+@import '@fontsource/outfit/700.css';
+
+@layer base {
+  :root {
+    /* Tropical Ocean Theme */
+    --background: 45 30% 98%;
+    --foreground: 200 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 200 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 25% 15%;
+
+    /* Ocean Teal Primary */
+    --primary: 185 72% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Warm Sand Secondary */
+    --secondary: 35 45% 92%;
+    --secondary-foreground: 200 25% 15%;
+
+    /* Muted Beach */
+    --muted: 45 20% 94%;
+    --muted-foreground: 200 15% 45%;
+
+    /* Coral Accent */
+    --accent: 15 85% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 200 20% 88%;
+    --input: 200 20% 88%;
+    --ring: 185 72% 38%;
+
+    --radius: 0.75rem;
+
+    /* Custom Colors */
+    --ocean: 185 72% 38%;
+    --ocean-light: 185 65% 50%;
+    --ocean-dark: 185 75% 28%;
+    --coral: 15 85% 60%;
+    --coral-light: 15 90% 70%;
+    --sunset: 25 95% 55%;
+    --sand: 35 45% 92%;
+    --palm: 150 45% 35%;
+
+    /* Gradients */
+    --gradient-ocean: linear-gradient(135deg, hsl(185 72% 38%) 0%, hsl(195 75% 45%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(25 95% 55%) 0%, hsl(15 85% 60%) 100%);
+    --gradient-hero: linear-gradient(180deg, transparent 0%, hsl(200 25% 15% / 0.7) 100%);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(200 25% 15% / 0.1);
+    --shadow-card: 0 8px 30px -8px hsl(200 25% 15% / 0.12);
+    --shadow-elevated: 0 20px 50px -12px hsl(200 25% 15% / 0.2);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 200 25% 10%;
+    --foreground: 45 30% 95%;
+
+    --card: 200 25% 12%;
+    --card-foreground: 45 30% 95%;
+
+    --popover: 200 25% 12%;
+    --popover-foreground: 45 30% 95%;
+
+    --primary: 185 65% 50%;
+    --primary-foreground: 200 25% 10%;
+
+    --secondary: 200 20% 18%;
+    --secondary-foreground: 45 30% 95%;
+
+    --muted: 200 20% 18%;
+    --muted-foreground: 200 15% 60%;
+
+    --accent: 15 85% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 200 20% 20%;
+    --input: 200 20% 20%;
+    --ring: 185 65% 50%;
+
+    --sidebar-background: 200 25% 10%;
+    --sidebar-foreground: 45 30% 95%;
+    --sidebar-primary: 185 65% 50%;
+    --sidebar-primary-foreground: 200 25% 10%;
+    --sidebar-accent: 200 20% 18%;
+    --sidebar-accent-foreground: 45 30% 95%;
+    --sidebar-border: 200 20% 20%;
+    --sidebar-ring: 185 65% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-gradient-ocean {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-ocean);
+  }
+
+  .bg-gradient-ocean {
+    background-image: var(--gradient-ocean);
+  }
+
+  .bg-gradient-sunset {
+    background-image: var(--gradient-sunset);
+  }
+
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
