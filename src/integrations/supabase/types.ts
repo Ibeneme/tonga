@@ -1,174 +1,174 @@
 export type Json =
-    | string
-    | number
-    | boolean
-    | null
-    | { [key: string]: Json | undefined }
-    | Json[]
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
-    // Allows to automatically instantiate createClient with right options
-    // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-    __InternalSupabase: {
-        PostgrestVersion: "14.1"
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.1"
+  }
+  public: {
+    Tables: {
+      blocked_dates: {
+        Row: {
+          blocked_date: string
+          created_at: string
+          created_by: string | null
+          id: string
+          reason: string | null
+          scooter_type: string | null
+        }
+        Insert: {
+          blocked_date: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reason?: string | null
+          scooter_type?: string | null
+        }
+        Update: {
+          blocked_date?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          reason?: string | null
+          scooter_type?: string | null
+        }
+        Relationships: []
+      }
+      bookings: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          deposit_amount: number
+          id: string
+          pickup_date: string
+          pickup_time: string
+          remaining_balance: number
+          rental_fee: number
+          return_date: string
+          return_time: string
+          scooter_type: string
+          security_deposit: number
+          status: string
+          stripe_payment_id: string | null
+          total_days: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          deposit_amount: number
+          id?: string
+          pickup_date: string
+          pickup_time: string
+          remaining_balance: number
+          rental_fee: number
+          return_date: string
+          return_time: string
+          scooter_type: string
+          security_deposit?: number
+          status?: string
+          stripe_payment_id?: string | null
+          total_days: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          deposit_amount?: number
+          id?: string
+          pickup_date?: string
+          pickup_time?: string
+          remaining_balance?: number
+          rental_fee?: number
+          return_date?: string
+          return_time?: string
+          scooter_type?: string
+          security_deposit?: number
+          status?: string
+          stripe_payment_id?: string | null
+          total_days?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      scooter_inventory: {
+        Row: {
+          id: string
+          price_per_day: number
+          scooter_type: string
+          total_count: number
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          price_per_day: number
+          scooter_type: string
+          total_count?: number
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          price_per_day?: number
+          scooter_type?: string
+          total_count?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
-    public: {
-        Tables: {
-            blocked_dates: {
-                Row: {
-                    blocked_date: string
-                    created_at: string
-                    created_by: string | null
-                    id: string
-                    reason: string | null
-                    scooter_type: string | null
-                }
-                Insert: {
-                    blocked_date: string
-                    created_at?: string
-                    created_by?: string | null
-                    id?: string
-                    reason?: string | null
-                    scooter_type?: string | null
-                }
-                Update: {
-                    blocked_date?: string
-                    created_at?: string
-                    created_by?: string | null
-                    id?: string
-                    reason?: string | null
-                    scooter_type?: string | null
-                }
-                Relationships: []
-            }
-            bookings: {
-                Row: {
-                    created_at: string
-                    customer_email: string
-                    customer_name: string
-                    customer_phone: string
-                    deposit_amount: number
-                    id: string
-                    pickup_date: string
-                    pickup_time: string
-                    remaining_balance: number
-                    rental_fee: number
-                    return_date: string
-                    return_time: string
-                    scooter_type: string
-                    security_deposit: number
-                    status: string
-                    stripe_payment_id: string | null
-                    total_days: number
-                    updated_at: string
-                }
-                Insert: {
-                    created_at?: string
-                    customer_email: string
-                    customer_name: string
-                    customer_phone: string
-                    deposit_amount: number
-                    id?: string
-                    pickup_date: string
-                    pickup_time: string
-                    remaining_balance: number
-                    rental_fee: number
-                    return_date: string
-                    return_time: string
-                    scooter_type: string
-                    security_deposit?: number
-                    status?: string
-                    stripe_payment_id?: string | null
-                    total_days: number
-                    updated_at?: string
-                }
-                Update: {
-                    created_at?: string
-                    customer_email?: string
-                    customer_name?: string
-                    customer_phone?: string
-                    deposit_amount?: number
-                    id?: string
-                    pickup_date?: string
-                    pickup_time?: string
-                    remaining_balance?: number
-                    rental_fee?: number
-                    return_date?: string
-                    return_time?: string
-                    scooter_type?: string
-                    security_deposit?: number
-                    status?: string
-                    stripe_payment_id?: string | null
-                    total_days?: number
-                    updated_at?: string
-                }
-                Relationships: []
-            }
-            scooter_inventory: {
-                Row: {
-                    id: string
-                    price_per_day: number
-                    scooter_type: string
-                    total_count: number
-                    updated_at: string
-                }
-                Insert: {
-                    id?: string
-                    price_per_day: number
-                    scooter_type: string
-                    total_count?: number
-                    updated_at?: string
-                }
-                Update: {
-                    id?: string
-                    price_per_day?: number
-                    scooter_type?: string
-                    total_count?: number
-                    updated_at?: string
-                }
-                Relationships: []
-            }
-            user_roles: {
-                Row: {
-                    created_at: string
-                    id: string
-                    role: Database["public"]["Enums"]["app_role"]
-                    user_id: string
-                }
-                Insert: {
-                    created_at?: string
-                    id?: string
-                    role: Database["public"]["Enums"]["app_role"]
-                    user_id: string
-                }
-                Update: {
-                    created_at?: string
-                    id?: string
-                    role?: Database["public"]["Enums"]["app_role"]
-                    user_id?: string
-                }
-                Relationships: []
-            }
-        }
-        Views: {
-            [_ in never]: never
-        }
-        Functions: {
-            has_role: {
-                Args: {
-                    _role: Database["public"]["Enums"]["app_role"]
-                    _user_id: string
-                }
-                Returns: boolean
-            }
-        }
-        Enums: {
-            app_role: "admin" | "user"
-        }
-        CompositeTypes: {
-            [_ in never]: never
-        }
+    Views: {
+      [_ in never]: never
     }
+    Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+    }
+    Enums: {
+      app_role: "admin" | "user"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
@@ -176,122 +176,122 @@ type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
-    DefaultSchemaTableNameOrOptions extends
+  DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-    TableName extends DefaultSchemaTableNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals
 }
-    ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-            Row: infer R
-        }
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
     ? R
     : never
-    : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
         DefaultSchema["Views"])
     ? (DefaultSchema["Tables"] &
         DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-            Row: infer R
-        }
-    ? R
-    : never
+        Row: infer R
+      }
+      ? R
+      : never
     : never
 
 export type TablesInsert<
-    DefaultSchemaTableNameOrOptions extends
+  DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-    TableName extends DefaultSchemaTableNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals
 }
-    ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-        Insert: infer I
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
     }
     ? I
     : never
-    : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
-    }
-    ? I
-    : never
+      }
+      ? I
+      : never
     : never
 
 export type TablesUpdate<
-    DefaultSchemaTableNameOrOptions extends
+  DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-    TableName extends DefaultSchemaTableNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals
 }
-    ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-        Update: infer U
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
     }
     ? U
     : never
-    : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
-    }
-    ? U
-    : never
+      }
+      ? U
+      : never
     : never
 
 export type Enums<
-    DefaultSchemaEnumNameOrOptions extends
+  DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-    EnumName extends DefaultSchemaEnumNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals
 }
-    ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-    : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
-    PublicCompositeTypeNameOrOptions extends
+  PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-    CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-        schema: keyof DatabaseWithoutInternals
-    }
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals
 }
-    ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-    : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
-    public: {
-        Enums: {
-            app_role: ["admin", "user"],
-        },
+  public: {
+    Enums: {
+      app_role: ["admin", "user"],
     },
+  },
 } as const

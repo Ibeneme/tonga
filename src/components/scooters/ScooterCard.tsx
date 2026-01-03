@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Check, Fuel, Shield } from "lucide-react";
+import { Users, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ScooterCardProps {
@@ -59,14 +59,6 @@ export const ScooterCard = ({
           <span className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             {scooter.capacity} rider{scooter.capacity > 1 ? "s" : ""}
-          </span>
-          <span className="flex items-center gap-1">
-            <Fuel className="w-4 h-4" />
-            Fuel included
-          </span>
-          <span className="flex items-center gap-1">
-            <Shield className="w-4 h-4" />
-            Insured
           </span>
         </div>
 

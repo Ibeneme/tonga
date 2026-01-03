@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { Bike, Mail, Phone, MapPin, Clock } from 'lucide-react';
-import { BUSINESS_HOURS, BUSINESS_CONFIG } from '@/lib/booking';
+import { Link } from "react-router-dom";
+import { Bike, Mail, Phone, MapPin, Clock } from "lucide-react";
+import { BUSINESS_HOURS, BUSINESS_CONFIG } from "@/lib/booking";
 
 export const Footer = () => {
   return (
@@ -13,10 +13,13 @@ export const Footer = () => {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                 <Bike className="w-6 h-6 text-primary-foreground" />
               </div>
-              <span className="font-display font-bold">SCOOTER RENTAL TONGA</span>
+              <span className="font-display font-bold">
+                SCOOTER RENTAL TONGA
+              </span>
             </div>
             <p className="text-primary-foreground/70 text-sm">
-              Explore the beautiful islands of Tonga on two wheels. Safe, affordable, and unforgettable.
+              Explore the beautiful islands of Tonga on two wheels. Safe,
+              affordable, and unforgettable.
             </p>
           </div>
 
@@ -24,10 +27,38 @@ export const Footer = () => {
           <div>
             <h4 className="font-display font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/scooters" className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">Our Scooters</Link></li>
-              <li><Link to="/book" className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">Book Now</Link></li>
-              <li><Link to="/terms" className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">Terms & Conditions</Link></li>
-              <li><Link to="/contact" className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">Contact Us</Link></li>
+              <li>
+                <Link
+                  to="/scooters"
+                  className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                >
+                  Our Scooters
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/book"
+                  className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                >
+                  Book Now
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/terms"
+                  className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                >
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -38,9 +69,14 @@ export const Footer = () => {
             </h4>
             <ul className="space-y-1 text-sm">
               {BUSINESS_HOURS.map((hours) => (
-                <li key={hours.day} className="flex justify-between text-primary-foreground/70">
+                <li
+                  key={hours.day}
+                  className="flex justify-between text-primary-foreground/70"
+                >
                   <span>{hours.day.slice(0, 3)}</span>
-                  <span>{hours.isOpen ? `${hours.open} - ${hours.close}` : 'Closed'}</span>
+                  <span>
+                    {hours.isOpen ? `${hours.open} - ${hours.close}` : "Closed"}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -67,7 +103,10 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-sm text-primary-foreground/50">
-          <p>© {new Date().getFullYear()} Scooter Rental Tonga. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Scooter Rental Tonga. All rights
+            reserved.
+          </p>
           <p className="mt-1">Payment accepted: Visa Card only</p>
         </div>
       </div>
