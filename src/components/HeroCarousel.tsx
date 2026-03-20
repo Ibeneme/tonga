@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import heroTonga from '@/assets/hero-tonga.jpg';
-import scooter1 from '@/assets/scooter-1.jpeg';
-import scooterFiki from '@/assets/scooter-fiki.jpeg';
-import scooterHeilala from '@/assets/scooter-heilala.jpeg';
-import scooterJane from '@/assets/scooter-jane.jpeg';
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import heroTonga from "@/assets/hero-tonga.jpg";
+import scooter1 from "@/assets/scooter-1.jpeg";
+import scooterFiki from "@/assets/scooter-fiki.jpeg";
+import scooterHeilala from "@/assets/scooter-heilala.jpeg";
+import scooterJane from "@/assets/scooter-jane.jpeg";
 
 const images = [
   { src: heroTonga },
@@ -32,7 +32,7 @@ export const HeroCarousel = () => {
     enter: (direction: number) => ({
       scale: 1.1,
       opacity: 0,
-      x: direction > 0 ? '5%' : '-5%',
+      x: direction > 0 ? "5%" : "-5%",
     }),
     center: {
       scale: 1,
@@ -42,7 +42,7 @@ export const HeroCarousel = () => {
     exit: (direction: number) => ({
       scale: 1.05,
       opacity: 0,
-      x: direction < 0 ? '5%' : '-5%',
+      x: direction < 0 ? "5%" : "-5%",
     }),
   };
 
@@ -59,14 +59,14 @@ export const HeroCarousel = () => {
           transition={{ duration: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
           className="absolute inset-0 flex items-center justify-center bg-foreground/20"
         >
-          <img 
-            src={images[currentIndex].src} 
+          <img
+            src={images[currentIndex].src}
             alt={`Scooter rental Tonga ${currentIndex + 1}`}
             className="w-full h-full object-contain"
           />
         </motion.div>
       </AnimatePresence>
-      
+
       {/* Slide indicators */}
       <div className="absolute bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {images.map((_, index) => (
@@ -77,9 +77,9 @@ export const HeroCarousel = () => {
               setCurrentIndex(index);
             }}
             className={`h-2 rounded-full transition-colors duration-300 ${
-              index === currentIndex 
-                ? 'bg-primary-foreground' 
-                : 'bg-primary-foreground/40 hover:bg-primary-foreground/60'
+              index === currentIndex
+                ? "bg-primary-foreground"
+                : "bg-primary-foreground/40 hover:bg-primary-foreground/60"
             }`}
             animate={{ width: index === currentIndex ? 24 : 8 }}
             transition={{ duration: 0.3 }}

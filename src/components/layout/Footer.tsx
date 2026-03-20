@@ -1,19 +1,24 @@
 import { Link } from "react-router-dom";
-import { Bike, Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { BUSINESS_HOURS, BUSINESS_CONFIG } from "@/lib/booking";
+import logoImg from "@/assets/logo.png";
 
 export const Footer = () => {
   return (
     <footer className="bg-foreground text-primary-foreground mt-auto">
       <div className="container mx-auto py-12 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {/* Brand */}
-          <div className="space-y-4">
+          <div className="col-span-2 md:col-span-1 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <Bike className="w-6 h-6 text-primary-foreground" />
+              <div className="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0">
+                <img
+                  src={logoImg}
+                  alt="Scooter Rental Tonga"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <span className="font-display font-bold">
+              <span className="font-display font-bold text-sm sm:text-base">
                 SCOOTER RENTAL TONGA
               </span>
             </div>
@@ -86,17 +91,34 @@ export const Footer = () => {
           <div>
             <h4 className="font-display font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-2 text-primary-foreground/70">
-                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <span>{BUSINESS_CONFIG.address}</span>
+              <li>
+                <a
+                  href="https://maps.app.goo.gl/HWdNzHCqBuemuS998"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2 text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                >
+                  <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <span>{BUSINESS_CONFIG.address}</span>
+                </a>
               </li>
               <li className="flex items-center gap-2 text-primary-foreground/70">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                <span>{BUSINESS_CONFIG.phone}</span>
+                <a
+                  href={`tel:${BUSINESS_CONFIG.phone.replace(/\s/g, "")}`}
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {BUSINESS_CONFIG.phone}
+                </a>
               </li>
               <li className="flex items-center gap-2 text-primary-foreground/70">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                <span>{BUSINESS_CONFIG.email}</span>
+                <a
+                  href={`mailto:${BUSINESS_CONFIG.email}`}
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {BUSINESS_CONFIG.email}
+                </a>
               </li>
             </ul>
           </div>

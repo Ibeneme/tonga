@@ -1,16 +1,12 @@
-import {
-  ScrollReveal,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/animations/ScrollReveal";
-import { motion } from "framer-motion";
+import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/animations/ScrollReveal';
+import { motion } from 'framer-motion';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { FAQ_ITEMS } from "@/lib/booking";
+} from '@/components/ui/accordion';
+import { FAQ_ITEMS } from '@/lib/booking';
 
 export const FAQSection = () => {
   return (

@@ -7,6 +7,7 @@ export interface Scooter {
     pricePerDay: number;
     priceCurrency: 'TOP' | 'NZD';
     priceNZD: number;
+    priceUSD: number;
     description: string;
     features: string[];
     available: number;
@@ -48,8 +49,8 @@ export const BUSINESS_CONFIG = {
     location: 'Tonga',
     address: "Federal Pacific House, Taufa'ahau Road, Nuku'alofa, Kingdom of Tonga",
     phone: '+676 8626339',
-    whatsapp: '006768626339',
-    email: 'info@scooterrentaltonga.to',
+    whatsapp: '6768626339',
+    email: 'felix.windmueller@gmail.com',
     currency: 'TOP' as const,
     fallbackCurrency: 'NZD' as const,
     securityDeposit: 100,
@@ -76,6 +77,7 @@ export const SCOOTERS: Scooter[] = [
         pricePerDay: 50,
         priceCurrency: 'TOP',
         priceNZD: 35,
+        priceUSD: 21,
         description: 'Perfect for solo adventurers exploring the beautiful islands of Tonga.',
         features: [
             'Fuel-efficient engine',
@@ -94,6 +96,7 @@ export const SCOOTERS: Scooter[] = [
         pricePerDay: 70,
         priceCurrency: 'TOP',
         priceNZD: 49,
+        priceUSD: 30,
         description: 'Ideal for couples or friends wanting to discover Tonga together.',
         features: [
             'Comfortable for 2 riders',
@@ -101,8 +104,8 @@ export const SCOOTERS: Scooter[] = [
             'Extra storage space',
             '2 helmets included',
         ],
-        available: 0,
-        total: 0,
+        available: 2,
+        total: 2,
     },
 ];
 

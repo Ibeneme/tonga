@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar } from "@/components/ui/calendar";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Layout } from '@/components/layout/Layout';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Calendar } from '@/components/ui/calendar';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import {
   Table,
   TableBody,
@@ -17,25 +17,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { format } from "date-fns";
-import {
-  Loader2,
-  CalendarOff,
-  Bike,
-  DollarSign,
-  Users,
+} from '@/components/ui/select';
+import { format } from 'date-fns';
+import { 
+  Loader2, 
+  CalendarOff, 
+  Bike, 
+  DollarSign, 
+  Users, 
   LogOut,
   Trash2,
-  Plus,
-} from "lucide-react";
+  Plus
+} from 'lucide-react';
 
 interface Booking {
   id: string;
@@ -75,36 +75,34 @@ const AdminPage = () => {
   const [blockedDates, setBlockedDates] = useState<BlockedDate[]>([]);
   const [inventory, setInventory] = useState<Inventory[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const [blockReason, setBlockReason] = useState("");
-  const [blockScooterType, setBlockScooterType] = useState<string>("all");
+  const [blockReason, setBlockReason] = useState('');
+  const [blockScooterType, setBlockScooterType] = useState<string>('all');
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
     const checkAdminAndLoadData = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
+      const { data: { session } } = await supabase.auth.getSession();
+      
       if (!session) {
-        navigate("/admin-login");
+        navigate('/admin-login');
         return;
       }
 
       // Check admin role
       const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin");
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', session.user.id)
+        .eq('role', 'admin');
 
       if (!roles || roles.length === 0) {
         toast({
-          title: "Access Denied",
-          description: "You do not have admin privileges.",
-          variant: "destructive",
+          title: 'Access Denied',
+          description: 'You do not have admin privileges.',
+          variant: 'destructive',
         });
-        navigate("/admin-login");
+        navigate('/admin-login');
         return;
       }
 
@@ -115,11 +113,9 @@ const AdminPage = () => {
 
     checkAdminAndLoadData();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_OUT") {
-        navigate("/admin-login");
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        navigate('/admin-login');
       }
     });
 
@@ -129,25 +125,25 @@ const AdminPage = () => {
   const loadData = async () => {
     // Load bookings
     const { data: bookingsData } = await supabase
-      .from("bookings")
-      .select("*")
-      .order("created_at", { ascending: false });
-
+      .from('bookings')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
     if (bookingsData) setBookings(bookingsData);
 
     // Load blocked dates
     const { data: blockedData } = await supabase
-      .from("blocked_dates")
-      .select("*")
-      .order("blocked_date", { ascending: true });
-
+      .from('blocked_dates')
+      .select('*')
+      .order('blocked_date', { ascending: true });
+    
     if (blockedData) setBlockedDates(blockedData);
 
     // Load inventory
     const { data: inventoryData } = await supabase
-      .from("scooter_inventory")
-      .select("*");
-
+      .from('scooter_inventory')
+      .select('*');
+    
     if (inventoryData) setInventory(inventoryData);
   };
 
@@ -158,52 +154,52 @@ const AdminPage = () => {
   const handleBlockDate = async () => {
     if (!selectedDate) {
       toast({
-        title: "Error",
-        description: "Please select a date to block.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Please select a date to block.',
+        variant: 'destructive',
       });
       return;
     }
 
-    const { error } = await supabase.from("blocked_dates").insert({
-      blocked_date: format(selectedDate, "yyyy-MM-dd"),
+    const { error } = await supabase.from('blocked_dates').insert({
+      blocked_date: format(selectedDate, 'yyyy-MM-dd'),
       scooter_type: blockScooterType,
       reason: blockReason || null,
     });
 
     if (error) {
       toast({
-        title: "Error",
+        title: 'Error',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } else {
       toast({
-        title: "Success",
-        description: "Date blocked successfully.",
+        title: 'Success',
+        description: 'Date blocked successfully.',
       });
       setSelectedDate(undefined);
-      setBlockReason("");
+      setBlockReason('');
       await loadData();
     }
   };
 
   const handleUnblockDate = async (id: string) => {
     const { error } = await supabase
-      .from("blocked_dates")
+      .from('blocked_dates')
       .delete()
-      .eq("id", id);
+      .eq('id', id);
 
     if (error) {
       toast({
-        title: "Error",
+        title: 'Error',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } else {
       toast({
-        title: "Success",
-        description: "Date unblocked successfully.",
+        title: 'Success',
+        description: 'Date unblocked successfully.',
       });
       await loadData();
     }
@@ -211,20 +207,20 @@ const AdminPage = () => {
 
   const handleUpdateBookingStatus = async (id: string, status: string) => {
     const { error } = await supabase
-      .from("bookings")
+      .from('bookings')
       .update({ status })
-      .eq("id", id);
+      .eq('id', id);
 
     if (error) {
       toast({
-        title: "Error",
+        title: 'Error',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } else {
       toast({
-        title: "Success",
-        description: "Booking status updated.",
+        title: 'Success',
+        description: 'Booking status updated.',
       });
       await loadData();
     }
@@ -232,44 +228,41 @@ const AdminPage = () => {
 
   const handleUpdateInventory = async (type: string, count: number) => {
     const { error } = await supabase
-      .from("scooter_inventory")
+      .from('scooter_inventory')
       .update({ total_count: count })
-      .eq("scooter_type", type);
+      .eq('scooter_type', type);
 
     if (error) {
       toast({
-        title: "Error",
+        title: 'Error',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     } else {
       toast({
-        title: "Success",
-        description: "Inventory updated.",
+        title: 'Success',
+        description: 'Inventory updated.',
       });
       await loadData();
     }
   };
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<
-      string,
-      "default" | "secondary" | "destructive" | "outline"
-    > = {
-      pending: "secondary",
-      confirmed: "default",
-      active: "default",
-      completed: "outline",
-      cancelled: "destructive",
+    const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+      pending: 'secondary',
+      confirmed: 'default',
+      active: 'default',
+      completed: 'outline',
+      cancelled: 'destructive',
     };
-    return <Badge variant={variants[status] || "secondary"}>{status}</Badge>;
+    return <Badge variant={variants[status] || 'secondary'}>{status}</Badge>;
   };
 
   // Calculate stats
   const totalBookings = bookings.length;
-  const activeRentals = bookings.filter((b) => b.status === "active").length;
+  const activeRentals = bookings.filter(b => b.status === 'active').length;
   const totalRevenue = bookings
-    .filter((b) => b.status !== "cancelled")
+    .filter(b => b.status !== 'cancelled')
     .reduce((sum, b) => sum + Number(b.rental_fee), 0);
   const totalScooters = inventory.reduce((sum, i) => sum + i.total_count, 0);
 
@@ -293,12 +286,8 @@ const AdminPage = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="font-display text-3xl font-bold">
-                Admin Dashboard
-              </h1>
-              <p className="text-muted-foreground">
-                Manage your scooter rental business
-              </p>
+              <h1 className="font-display text-3xl font-bold">Admin Dashboard</h1>
+              <p className="text-muted-foreground">Manage your scooter rental business</p>
             </div>
             <Button variant="outline" onClick={handleSignOut}>
               <LogOut className="w-4 h-4 mr-2" />
@@ -315,12 +304,8 @@ const AdminPage = () => {
                     <Users className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      Total Bookings
-                    </p>
-                    <p className="font-display text-2xl font-bold">
-                      {totalBookings}
-                    </p>
+                    <p className="text-muted-foreground text-sm">Total Bookings</p>
+                    <p className="font-display text-2xl font-bold">{totalBookings}</p>
                   </div>
                 </div>
               </CardContent>
@@ -333,12 +318,8 @@ const AdminPage = () => {
                     <Bike className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      Active Rentals
-                    </p>
-                    <p className="font-display text-2xl font-bold">
-                      {activeRentals}
-                    </p>
+                    <p className="text-muted-foreground text-sm">Active Rentals</p>
+                    <p className="font-display text-2xl font-bold">{activeRentals}</p>
                   </div>
                 </div>
               </CardContent>
@@ -351,12 +332,8 @@ const AdminPage = () => {
                     <Bike className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      Total Scooters
-                    </p>
-                    <p className="font-display text-2xl font-bold">
-                      {totalScooters}
-                    </p>
+                    <p className="text-muted-foreground text-sm">Total Scooters</p>
+                    <p className="font-display text-2xl font-bold">{totalScooters}</p>
                   </div>
                 </div>
               </CardContent>
@@ -369,12 +346,8 @@ const AdminPage = () => {
                     <DollarSign className="w-6 h-6 text-sunset" />
                   </div>
                   <div>
-                    <p className="text-muted-foreground text-sm">
-                      Total Revenue
-                    </p>
-                    <p className="font-display text-2xl font-bold">
-                      {totalRevenue.toFixed(2)} TOP
-                    </p>
+                    <p className="text-muted-foreground text-sm">Total Revenue</p>
+                    <p className="font-display text-2xl font-bold">{totalRevenue.toFixed(2)} TOP</p>
                   </div>
                 </div>
               </CardContent>
@@ -396,9 +369,7 @@ const AdminPage = () => {
                 </CardHeader>
                 <CardContent>
                   {bookings.length === 0 ? (
-                    <p className="text-center text-muted-foreground py-8">
-                      No bookings yet.
-                    </p>
+                    <p className="text-center text-muted-foreground py-8">No bookings yet.</p>
                   ) : (
                     <div className="overflow-x-auto">
                       <Table>
@@ -417,61 +388,34 @@ const AdminPage = () => {
                             <TableRow key={booking.id}>
                               <TableCell>
                                 <div>
-                                  <p className="font-medium">
-                                    {booking.customer_name}
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {booking.customer_email}
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {booking.customer_phone}
-                                  </p>
+                                  <p className="font-medium">{booking.customer_name}</p>
+                                  <p className="text-sm text-muted-foreground">{booking.customer_email}</p>
+                                  <p className="text-sm text-muted-foreground">{booking.customer_phone}</p>
                                 </div>
                               </TableCell>
-                              <TableCell className="capitalize">
-                                {booking.scooter_type}
-                              </TableCell>
+                              <TableCell className="capitalize">{booking.scooter_type}</TableCell>
                               <TableCell>
                                 <div className="text-sm">
-                                  <p>
-                                    {booking.pickup_date} at{" "}
-                                    {booking.pickup_time}
-                                  </p>
-                                  <p className="text-muted-foreground">
-                                    to {booking.return_date}
-                                  </p>
+                                  <p>{booking.pickup_date} at {booking.pickup_time}</p>
+                                  <p className="text-muted-foreground">to {booking.return_date}</p>
                                 </div>
                               </TableCell>
                               <TableCell>{booking.rental_fee} TOP</TableCell>
-                              <TableCell>
-                                {getStatusBadge(booking.status)}
-                              </TableCell>
+                              <TableCell>{getStatusBadge(booking.status)}</TableCell>
                               <TableCell>
                                 <Select
                                   value={booking.status}
-                                  onValueChange={(value) =>
-                                    handleUpdateBookingStatus(booking.id, value)
-                                  }
+                                  onValueChange={(value) => handleUpdateBookingStatus(booking.id, value)}
                                 >
                                   <SelectTrigger className="w-32">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="pending">
-                                      Pending
-                                    </SelectItem>
-                                    <SelectItem value="confirmed">
-                                      Confirmed
-                                    </SelectItem>
-                                    <SelectItem value="active">
-                                      Active
-                                    </SelectItem>
-                                    <SelectItem value="completed">
-                                      Completed
-                                    </SelectItem>
-                                    <SelectItem value="cancelled">
-                                      Cancelled
-                                    </SelectItem>
+                                    <SelectItem value="pending">Pending</SelectItem>
+                                    <SelectItem value="confirmed">Confirmed</SelectItem>
+                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="completed">Completed</SelectItem>
+                                    <SelectItem value="cancelled">Cancelled</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </TableCell>
@@ -502,13 +446,10 @@ const AdminPage = () => {
                       disabled={(date) => date < new Date()}
                       className="rounded-md border pointer-events-auto"
                     />
-
+                    
                     <div className="space-y-2">
                       <Label>Scooter Type</Label>
-                      <Select
-                        value={blockScooterType}
-                        onValueChange={setBlockScooterType}
-                      >
+                      <Select value={blockScooterType} onValueChange={setBlockScooterType}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -542,9 +483,7 @@ const AdminPage = () => {
                   </CardHeader>
                   <CardContent>
                     {blockedDates.length === 0 ? (
-                      <p className="text-center text-muted-foreground py-8">
-                        No dates blocked.
-                      </p>
+                      <p className="text-center text-muted-foreground py-8">No dates blocked.</p>
                     ) : (
                       <div className="space-y-2">
                         {blockedDates.map((date) => (
@@ -555,9 +494,7 @@ const AdminPage = () => {
                             <div>
                               <p className="font-medium">{date.blocked_date}</p>
                               <p className="text-sm text-muted-foreground">
-                                {date.scooter_type === "all"
-                                  ? "All scooters"
-                                  : `${date.scooter_type} only`}
+                                {date.scooter_type === 'all' ? 'All scooters' : `${date.scooter_type} only`}
                                 {date.reason && ` • ${date.reason}`}
                               </p>
                             </div>
@@ -600,7 +537,7 @@ const AdminPage = () => {
                               </p>
                             </div>
                           </div>
-
+                          
                           <div className="space-y-2">
                             <Label>Total Available</Label>
                             <div className="flex gap-2">
@@ -609,25 +546,16 @@ const AdminPage = () => {
                                 min="0"
                                 value={item.total_count}
                                 onChange={(e) => {
-                                  const newInventory = inventory.map((i) =>
-                                    i.id === item.id
-                                      ? {
-                                          ...i,
-                                          total_count:
-                                            parseInt(e.target.value) || 0,
-                                        }
+                                  const newInventory = inventory.map(i =>
+                                    i.id === item.id 
+                                      ? { ...i, total_count: parseInt(e.target.value) || 0 }
                                       : i
                                   );
                                   setInventory(newInventory);
                                 }}
                               />
                               <Button
-                                onClick={() =>
-                                  handleUpdateInventory(
-                                    item.scooter_type,
-                                    item.total_count
-                                  )
-                                }
+                                onClick={() => handleUpdateInventory(item.scooter_type, item.total_count)}
                               >
                                 Update
                               </Button>

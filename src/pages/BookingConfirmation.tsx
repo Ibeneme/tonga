@@ -1,22 +1,17 @@
-import { useSearchParams, Link } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  CheckCircle2,
-  Calendar,
-  Clock,
-  MapPin,
-  Phone,
-  Mail,
-  Fuel,
-  FileText,
-} from "lucide-react";
-import { BUSINESS_HOURS, formatCurrency, BUSINESS_CONFIG } from "@/lib/booking";
+import { useSearchParams, Link } from 'react-router-dom';
+import { Layout } from '@/components/layout/Layout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { CheckCircle2, Calendar, Clock, MapPin, Phone, Mail, Fuel, FileText, ExternalLink, User } from 'lucide-react';
+import { BUSINESS_HOURS, formatCurrency, BUSINESS_CONFIG } from '@/lib/booking';
+
+const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/HWdNzHCqBuemuS998';
 
 const BookingConfirmation = () => {
   const [searchParams] = useSearchParams();
-  const bookingId = searchParams.get("id") || "BK-XXXXXX";
+  const bookingId = searchParams.get('id') || 'BK-XXXXXX';
+  const customerName = searchParams.get('name') || '';
+  const customerPhone = searchParams.get('phone') || '';
 
   return (
     <Layout>
@@ -28,21 +23,35 @@ const BookingConfirmation = () => {
                 <div className="w-20 h-20 mx-auto mb-4 bg-primary-foreground/20 rounded-full flex items-center justify-center">
                   <CheckCircle2 className="w-12 h-12" />
                 </div>
-                <h1 className="font-display text-3xl font-bold mb-2">
-                  Booking Confirmed!
-                </h1>
+                <h1 className="font-display text-3xl font-bold mb-2">Booking Confirmed!</h1>
                 <p className="opacity-90">Your adventure in Tonga awaits</p>
               </div>
 
               <CardContent className="p-8 space-y-6">
                 <div className="text-center pb-6 border-b border-border">
-                  <p className="text-muted-foreground mb-2">
-                    Booking Reference
-                  </p>
-                  <p className="font-display text-2xl font-bold text-primary">
-                    {bookingId}
-                  </p>
+                  <p className="text-muted-foreground mb-2">Booking Reference</p>
+                  <p className="font-display text-2xl font-bold text-primary">{bookingId}</p>
                 </div>
+
+                {/* Customer Info */}
+                {(customerName || customerPhone) && (
+                  <div className="space-y-4 pb-6 border-b border-border">
+                    <h3 className="font-display font-semibold text-lg flex items-center gap-2">
+                      <User className="w-5 h-5 text-primary" />
+                      Customer Details
+                    </h3>
+                    {customerName && (
+                      <p className="text-muted-foreground">
+                        <strong>Name:</strong> {customerName}
+                      </p>
+                    )}
+                    {customerPhone && (
+                      <p className="text-muted-foreground">
+                        <strong>Phone:</strong> {customerPhone}
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 <div className="space-y-4">
                   <h3 className="font-display font-semibold text-lg flex items-center gap-2">
@@ -50,10 +59,17 @@ const BookingConfirmation = () => {
                     Pickup Location
                   </h3>
                   <p className="text-muted-foreground">
-                    Scooter Rental Tonga
-                    <br />
-                    Nuku'alofa, Tonga
+                    {BUSINESS_CONFIG.address}
                   </p>
+                  <a 
+                    href={GOOGLE_MAPS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary hover:underline text-sm font-medium"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Open in Google Maps
+                  </a>
                 </div>
 
                 <div className="space-y-4">
@@ -63,16 +79,9 @@ const BookingConfirmation = () => {
                   </h3>
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     {BUSINESS_HOURS.map((hours) => (
-                      <div
-                        key={hours.day}
-                        className="flex justify-between text-muted-foreground"
-                      >
+                      <div key={hours.day} className="flex justify-between text-muted-foreground">
                         <span>{hours.day}</span>
-                        <span>
-                          {hours.isOpen
-                            ? `${hours.open} - ${hours.close}`
-                            : "Closed"}
-                        </span>
+                        <span>{hours.isOpen ? `${hours.open} - ${hours.close}` : 'Closed'}</span>
                       </div>
                     ))}
                   </div>
@@ -87,11 +96,7 @@ const BookingConfirmation = () => {
                     <li>• Valid driver's license</li>
                     <li>• This booking confirmation</li>
                     <li>• Remaining balance: Pay in cash at pickup</li>
-                    <li>
-                      • Security deposit:{" "}
-                      {formatCurrency(BUSINESS_CONFIG.securityDeposit)}{" "}
-                      (refundable)
-                    </li>
+                    <li>• Security deposit: {formatCurrency(BUSINESS_CONFIG.securityDeposit)} (refundable)</li>
                   </ul>
                 </div>
 
@@ -101,30 +106,30 @@ const BookingConfirmation = () => {
                     Fuel Policy
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Your scooter will be provided with a full tank of fuel.
-                    Please return it with the same fuel level to avoid
-                    additional charges.
+                    Your scooter will be provided with a full tank of fuel. 
+                    Please return it with the same fuel level to avoid additional charges.
                   </p>
                 </div>
 
                 <div className="space-y-4 pt-4 border-t border-border">
-                  <h3 className="font-display font-semibold text-lg">
-                    Contact Us
-                  </h3>
+                  <h3 className="font-display font-semibold text-lg">Contact Us</h3>
                   <div className="space-y-2">
-                    <a
-                      href="tel:+676XXXXXXX"
-                      className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                    >
+                    <a href={`tel:${BUSINESS_CONFIG.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                       <Phone className="w-4 h-4" />
-                      <span>+676 XXX XXXX</span>
+                      <span>{BUSINESS_CONFIG.phone}</span>
                     </a>
-                    <a
-                      href="mailto:info@scooterrentaltonga.to"
+                    <a href={`mailto:${BUSINESS_CONFIG.email}`} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                      <Mail className="w-4 h-4" />
+                      <span>{BUSINESS_CONFIG.email}</span>
+                    </a>
+                    <a 
+                      href={GOOGLE_MAPS_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                     >
-                      <Mail className="w-4 h-4" />
-                      <span>info@scooterrentaltonga.to</span>
+                      <MapPin className="w-4 h-4" />
+                      <span>View on Google Maps</span>
                     </a>
                   </div>
                 </div>
@@ -133,11 +138,7 @@ const BookingConfirmation = () => {
                   <Button variant="hero" className="flex-1" asChild>
                     <Link to="/">Back to Home</Link>
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => window.print()}
-                  >
+                  <Button variant="outline" className="flex-1" onClick={() => window.print()}>
                     Print Confirmation
                   </Button>
                 </div>

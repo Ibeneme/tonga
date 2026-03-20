@@ -30,16 +30,11 @@ import {
   getNextValidDate,
 } from "@/lib/booking";
 import { format, addDays } from "date-fns";
-import {
-  CalendarIcon,
-  AlertCircle,
-  CheckCircle2,
-  CreditCard,
-  Info,
-} from "lucide-react";
+import { CalendarIcon, AlertCircle, CheckCircle2, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { HeroText, ScrollReveal } from "@/components/animations/ScrollReveal";
+import { PayPalButton } from "@/components/payment/PayPalButton";
 
 const generateTimeSlots = (day: number) => {
   // day: 0 = Sunday, 1 = Monday, etc.
@@ -172,13 +167,8 @@ const BookingPage = () => {
     availability > 0;
   const canProceedToStep3 = customerName && customerEmail && customerPhone;
 
-  const handleSubmit = async () => {
+  const handlePaymentSuccess = (orderId: string) => {
     if (!pickupDate || !returnDate || !pricing || !selectedScooter) return;
-
-    setIsSubmitting(true);
-
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const booking = addBooking({
       visitorId: `V-${Date.now()}`,
@@ -199,14 +189,24 @@ const BookingPage = () => {
       customerPhone,
     });
 
-    setIsSubmitting(false);
-
     toast({
       title: "Booking Confirmed!",
       description: `Your booking ID is ${booking.id}. Check your email for details.`,
     });
 
-    navigate(`/booking-confirmation?id=${booking.id}`);
+    navigate(
+      `/booking-confirmation?id=${booking.id}&name=${encodeURIComponent(
+        customerName
+      )}&phone=${encodeURIComponent(customerPhone)}`
+    );
+  };
+
+  const handlePaymentError = (error: string) => {
+    toast({
+      title: "Payment Failed",
+      description: error,
+      variant: "destructive",
+    });
   };
 
   return (
@@ -543,107 +543,97 @@ const BookingPage = () => {
                   )}
 
                   {/* Step 3: Payment */}
-                  {step === 3 && (
-                    <motion.div
-                      key="step3"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Card className="shadow-card border-0">
-                        <CardHeader>
-                          <CardTitle className="font-display">
-                            Payment
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                          <div className="bg-muted p-4 rounded-lg space-y-2">
-                            <div className="flex items-center gap-2 text-sm font-medium">
-                              <CreditCard className="w-4 h-4" />
-                              <span>Pay Deposit with Visa Card</span>
-                            </div>
-                            <p className="text-muted-foreground text-sm">
-                              You will be charged{" "}
-                              <strong>
-                                {formatCurrency(pricing?.depositAmount || 0)}
-                              </strong>{" "}
-                              now as a non-refundable booking deposit. The
-                              remaining balance of{" "}
-                              <strong>
-                                {formatCurrency(pricing?.remainingBalance || 0)}
-                              </strong>{" "}
-                              is due in cash at pickup.
-                            </p>
-                          </div>
-
-                          <div className="space-y-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="cardNumber">Card Number</Label>
-                              <Input
-                                id="cardNumber"
-                                placeholder="4242 4242 4242 4242"
-                              />
+                  {step === 3 &&
+                    pricing &&
+                    pickupDate &&
+                    returnDate &&
+                    selectedScooter && (
+                      <motion.div
+                        key="step3"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Card className="shadow-card border-0">
+                          <CardHeader>
+                            <CardTitle className="font-display">
+                              Payment
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-6">
+                            <div className="bg-muted p-4 rounded-lg space-y-2">
+                              <p className="text-sm font-medium">
+                                Pay Deposit with PayPal
+                              </p>
+                              <p className="text-muted-foreground text-sm">
+                                You will be charged{" "}
+                                <strong>
+                                  {formatCurrency(pricing.depositAmount)}
+                                </strong>{" "}
+                                now as a non-refundable booking deposit. The
+                                remaining balance of{" "}
+                                <strong>
+                                  {formatCurrency(pricing.remainingBalance)}
+                                </strong>{" "}
+                                is due in cash at pickup.
+                              </p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="expiry">Expiry Date</Label>
-                                <Input id="expiry" placeholder="MM/YY" />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="cvc">CVC</Label>
-                                <Input id="cvc" placeholder="123" />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="bg-coral/10 p-4 rounded-lg">
-                            <div className="flex items-start gap-2">
-                              <Info className="w-5 h-5 text-coral mt-0.5" />
-                              <div className="text-sm">
-                                <p className="font-medium text-coral">
-                                  Important:
-                                </p>
-                                <ul className="list-disc list-inside text-muted-foreground mt-1 space-y-1">
-                                  <li>Booking deposit is non-refundable</li>
-                                  <li>
-                                    Valid driver's license required at pickup
-                                  </li>
-                                  <li>
-                                    Security deposit of {formatCurrency(100)}{" "}
-                                    collected at pickup
-                                  </li>
-                                </ul>
+                            <div className="bg-coral/10 p-4 rounded-lg">
+                              <div className="flex items-start gap-2">
+                                <Info className="w-5 h-5 text-coral mt-0.5" />
+                                <div className="text-sm">
+                                  <p className="font-medium text-coral">
+                                    Important:
+                                  </p>
+                                  <ul className="list-disc list-inside text-muted-foreground mt-1 space-y-1">
+                                    <li>Booking deposit is non-refundable</li>
+                                    <li>
+                                      Valid driver's license required at pickup
+                                    </li>
+                                    <li>
+                                      Security deposit of {formatCurrency(100)}{" "}
+                                      collected at pickup
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className="flex gap-4">
+                            <PayPalButton
+                              amount={pricing.depositAmount}
+                              currency="NZD"
+                              bookingData={{
+                                scooterType: scooterType,
+                                pickupDate: format(pickupDate, "yyyy-MM-dd"),
+                                pickupTime: pickupTime,
+                                returnDate: format(returnDate, "yyyy-MM-dd"),
+                                returnTime: returnTime,
+                                totalDays: pricing.days,
+                                rentalFee: pricing.rentalFee,
+                                depositAmount: pricing.depositAmount,
+                                securityDeposit: pricing.securityDeposit,
+                                remainingBalance: pricing.remainingBalance,
+                                customerName: customerName,
+                                customerEmail: customerEmail,
+                                customerPhone: customerPhone,
+                              }}
+                              onSuccess={handlePaymentSuccess}
+                              onError={handlePaymentError}
+                            />
+
                             <Button
                               variant="outline"
-                              className="flex-1"
+                              className="w-full"
                               onClick={() => setStep(2)}
                             >
                               Back
                             </Button>
-                            <Button
-                              variant="hero"
-                              className="flex-1"
-                              onClick={handleSubmit}
-                              disabled={isSubmitting}
-                            >
-                              {isSubmitting
-                                ? "Processing..."
-                                : `Pay ${formatCurrency(
-                                    pricing?.depositAmount || 0
-                                  )} Deposit`}
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  )}
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    )}
                 </AnimatePresence>
               </div>
 
