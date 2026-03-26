@@ -102,10 +102,11 @@ export const Header = () => {
           <Link
             to="/admin-login"
             className={cn(
+              
               "ml-1 p-2 rounded-lg transition-colors opacity-50 hover:opacity-100",
               scrolled
-                ? "text-muted-foreground hover:text-foreground"
-                : "text-primary-foreground/60 hover:text-primary-foreground"
+                ? "text-foreground hover:text-foreground"
+                : "text-foreground hover:text-primary-foreground"
             )}
             title="Admin"
           >
