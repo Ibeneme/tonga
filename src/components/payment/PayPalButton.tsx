@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "../../integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
 interface PayPalButtonProps {
@@ -33,7 +33,7 @@ declare global {
 
 export const PayPalButton = ({
   amount,
-  currency = "NZD",
+  currency = "USD",
   bookingData,
   onSuccess,
   onError,

@@ -47,14 +47,15 @@ export interface BusinessHours {
 export const BUSINESS_CONFIG = {
     name: 'SCOOTER RENTAL TONGA',
     location: 'Tonga',
-    address: "Federal Pacific House, Taufa'ahau Road, Nuku'alofa, Kingdom of Tonga",
+    address: "The Kentigate, Fangaloto, Nuku'alofa, Kingdom of Tonga",
     phone: '+676 8626339',
     whatsapp: '6768626339',
     email: 'felix.windmueller@gmail.com',
     currency: 'TOP' as const,
     fallbackCurrency: 'NZD' as const,
     securityDeposit: 100,
-    bookingDepositPercent: 0.08,
+    bookingDepositPercent: 1.0,
+    googleMapsUrl: 'https://maps.app.goo.gl/Jpwjkb4NQy2kPcXNA?g_st=ipc',
     paymentMethods: ['Visa'] as const,
 };
 
@@ -116,7 +117,7 @@ export const FAQ_ITEMS = [
     },
     {
         question: 'What payment methods do you accept?',
-        answer: 'We accept Visa card payments online for the booking deposit (8%). The remaining balance and security deposit (100 TOP) are paid in cash at pickup.',
+        answer: 'We accept PayPal payments online for the full rental fee at booking. A refundable security deposit of 100 TOP is collected in cash at pickup.',
     },
     {
         question: 'Can I extend my rental period?',

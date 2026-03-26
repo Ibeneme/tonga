@@ -66,19 +66,15 @@ const TermsPage = () => {
                   <CardContent className="space-y-3 text-muted-foreground">
                     <ul className="list-disc list-inside space-y-2">
                       <li>
-                        <strong>Booking Deposit:</strong> An 8% non-refundable deposit is required at the time of booking. 
-                        This deposit secures your scooter for the selected dates.
-                      </li>
-                      <li>
-                        <strong>Remaining Balance:</strong> The balance of your rental fee is due in cash at pickup.
+                        <strong>Full Rental Payment:</strong> The full rental fee is charged at the time of booking via PayPal in USD.
                       </li>
                       <li>
                         <strong>Security Deposit:</strong> A refundable security deposit of {formatCurrency(BUSINESS_CONFIG.securityDeposit)} is 
-                        collected at pickup. This is returned upon satisfactory inspection of the scooter at return.
+                        collected in cash at pickup. This is returned upon satisfactory inspection of the scooter at return.
                       </li>
                       <li>
-                        <strong>Payment Methods:</strong> Online booking deposits are accepted via Visa card only. 
-                        In-store payments can be made in cash.
+                        <strong>Payment Methods:</strong> Online payments are processed via PayPal in USD.
+                        Security deposit is paid in cash at pickup.
                       </li>
                     </ul>
                   </CardContent>
